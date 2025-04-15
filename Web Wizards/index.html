@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>VitSpaceFinder</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+    <style>
+      /* General Reset */
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: Arial, sans-serif;
+        line-height: 1.6;
+      }
+      /* Sidebar Styles */
+      .sidebar {
+        height: 100%;
+        width: 0;
+        position: fixed;
+        top: 0;
+        left: 0;
+        background-color: rgba(0, 0, 0, 0.9);
+        overflow-x: hidden;
+        transition: 0.3s;
+        padding-top: 60px;
+        color: white;
+        z-index: 1000;
+      }
+      .sidebar a {
+        padding: 15px 25px;
+        text-decoration: none;
+        font-size: 18px;
+        color: white;
+        display: block;
+        transition: 0.3s;
+      }
+      .sidebar a:hover {
+        background-color: rgb(140, 2, 140);
+      }
+      .sidebar .close-btn {
+        position: absolute;
+        top: 10px;
+        right: 20px;
+        font-size: 24px;
+        color: white;
+        cursor: pointer;
+      }
+      /* Fixed Navbar Styles */
+      nav {
+        display: flex;
+        align-items: center;
+        background-color: white;
+        gap: 20px;
+        font-size: larger;
+        font-weight: 500;
+        padding: 15px;
+        border: 1px solid grey;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        z-index: 1000;
+      }
+      #logo {
+        width: 50px;
+        height: 50px;
+      }
+      .open-btn {
+        font-size: 24px;
+        cursor: pointer;
+        color: #333;
+        background: none;
+        border: none;
+        z-index: 1001;
+      }
+      nav a {
+        text-decoration: none;
+        font-size: large;
+        color: black;
+        margin-right: 15px;
+        transition: color 0.3s ease;
+      }
+      nav a:hover {
+        color: rgb(140, 2, 140);
+      }
+      button {
+        background-color: white;
+        color: rgb(140, 2, 140);
+        padding: 12px 16px;
+        border-radius: 5px;
+        border: 2px solid rgb(140, 2, 140);
+        cursor: pointer;
+        font-size: 15px;
+        font-weight: 300;
+      }
+      button:hover {
+        color: white;
+        background-color: rgb(140, 2, 140);
+      }
+      /* Hero Section */
+      .hero {
+        background: url("logo-photoaidcom-cropped[1].jpg") no-repeat center
+          center/cover;
+        height: 400px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: relative;
+        margin-top: 60px;
+      }
+      .hero-section {
+        background-image: url("https://vit.ac.in/wp-content/uploads/2024/01/cover-1.webp"); /* Example GIF URL */
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        height: 130vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: green;
+        text-align: center;
+        position: relative;
+      }
+      .hero::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.5);
+        z-index: 1;
+      }
+      .hero-text {
+        z-index: 2;
+        color: white;
+        text-align: center;
+      }
+      .hero-text h1 {
+    font-size: 2.5rem;
+    margin-bottom: 70px;
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3); /* Adjust values for shadow */
+}
+
+      /* Categories Section */
+      .categories {
+        padding: 40px;
+        text-align: center;
+        background-color: #f9f9f9;
+      }
+      .categories h2 {
+        margin-bottom: 20px;
+        font-size: 2rem;
+        color: #333;
+      }
+      .category-cards {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 20px;
+      }
+      .card {
+        padding: 30px;
+        background-color: white;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        text-align: center;
+        font-weight: bold;
+        color: #333;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: transform 0.3s ease;
+        text-decoration: none;
+      }
+      .card:hover {
+        transform: translateY(-5px);
+        color: white;
+        background-color: rgb(140, 2, 140);
+      }
+      /* Footer */
+      .footer {
+        background-color: #ffffff;
+        padding: 40px;
+        color: #333;
+        font-size: 0.9rem;
+      }
+      .footer .footer-content {
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+      .footer h3 {
+        font-size: 1rem;
+        margin-bottom: 15px;
+        color: #000;
+      }
+      .footer ul {
+        list-style-type: none;
+        padding: 0;
+        margin: 0;
+      }
+      .footer ul li {
+        margin-bottom: 8px;
+      }
+      .footer ul li a {
+        text-decoration: none;
+        color: #555;
+        transition: color 0.3s;
+      }
+      .footer ul li a:hover {
+        color: #007acc;
+      }
+      .footer .footer-bottom {
+        text-align: center;
+        padding-top: 20px;
+        border-top: 1px solid #ddd;
+        margin-top: 20px;
+        font-size: 0.8rem;
+        color: #888;
+      }
+      .social-icons {
+        margin-top: 10px;
+      }
+      .social-icons a {
+        font-size: 24px;
+        color: #333;
+        margin: 0 10px;
+        text-decoration: none;
+      }
+      .social-icons a:hover {
+        color: rgb(140, 2, 140);
+      }
+      /* Button styling */
+      .signup-button {
+        font-size: 1em;
+        color: #fff;
+        background-color: rgb(140, 2, 140);
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        text-align: center;
+        text-decoration: none;
+        cursor: pointer;
+        margin-top: 20px;
+        width: fit-content;
+        transition: background-color 0.3s ease;
+      }
+      .signup-button:hover {
+        background-color: black;
+      }
+      #w {
+        margin-top: 50px;
+        font-size: 900;
+        font-weight: bolder;
+      }
+      .right-align {
+        margin-left: auto;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="main-content">
+      <!-- Fixed Navbar -->
+      <header>
+        <nav id="navbar">
+          <div id="mySidebar" class="sidebar">
+            <span class="close-btn" onclick="closeNav()">&times;</span>
+            <a href="index.html">Home</a>
+            <a href="service.html">Services</a>
+            <a href="insta.html">About us</a>
+            <a href="contactus.php">Contact us</a>
+          </div>
+          <button class="open-btn" onclick="openNav()">&#9776;</button>
+          <!-- Sidebar button -->
+          <img src="logo-photoaidcom-cropped.jpg" alt="Logo" id="logo" />
+          <h1>VitSpaceFinder</h1>
+          <a href="signuptalent.html" class="right-align">Post ur timetable</a>
+          <a href="signinclient.php">Sign in</a>
+          <a href="signupclient.html"><button id="join">Sign Up</button></a>
+        </nav>
+      </header>
+      <!-- Hero Section -->
+      <section class="hero-section">
+        <div class="hero-text">
+          <h1 style="color: rgb(140, 2, 140);">Find Your Free Space in vit</h1>
+        </div>
+      </section>
+      <!-- Categories Section -->
+      <section class="categories">
+        <br />
+        <h2>Popular Blocks</h2>
+        <br />
+        <div class="category-cards">
+          <a href="signinclient.php" class="card">SJT Block</a>
+          <a href="signinclient.php" class="card">PRP Block</a>
+          <a href="signinclient.php" class="card">SMV Block</a>
+          <a href="signinclient.php" class="card">MAIN Block</a>
+          <a href="signinclient.php" class="card">MG Block</a>
+          <a href="signinclient.php" class="card">TT Block</a>
+          <a href="signinclient.php" class="card">CBMR BLOCK</a>
+        </div>
+      </section>
+      <!-- Footer -->
+      <footer class="footer">
+        <br /><br />
+        <div class="footer-content">
+          <div>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <p>© VitSpaceFinder Ltd. 2024.</p>
+          <div class="social-icons">
+            <a href="insta.html" class="fab fa-tiktok"></a>
+            <!-- TikTok -->
+            <a href="insta.html" class="fab fa-instagram"></a>
+            <!-- Instagram -->
+            <a href="insta.html" class="fab fa-facebook"></a>
+            <!-- Facebook -->
+            <a href="insta.html" class="fab fa-linkedin"></a>
+            <!-- LinkedIn -->
+            <a href="insta.html" class="fab fa-pinterest"></a>
+            <!-- Pinterest -->
+          </div>
+        </div>
+      </footer>
+    </div>
+    <script>
+      function openNav() {
+        document.getElementById("mySidebar").style.width = "250px";
+        document.body.classList.add("sidebar-open");
+      }
+      function closeNav() {
+        document.getElementById("mySidebar").style.width = "0";
+        document.body.classList.remove("sidebar-open");
+      }
+    </script>
+  </body>
+</html>

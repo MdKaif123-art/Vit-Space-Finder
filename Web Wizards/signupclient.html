@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sign Up Form</title>
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+<style>
+body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    background-color: #ffffff;
+}
+.form-container {
+    width: 400px;
+    background-color: #fff;
+    padding: 30px;
+    text-align: center;
+}
+.form-container h2 {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+input[type="email"],
+input[type="password"] {
+    width: 100%;
+    padding: 12px;
+    margin: 10px 0;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 14px;
+}
+.checkbox-group {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+    text-align: left;
+}
+.terms {
+    font-size: 12px;
+    color: #555;
+}
+.submit-btn {
+    width: 100%;
+    padding: 12px;
+    background-color: rgb(140, 2, 140);
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+}
+.submit-btn:hover {
+    background-color: rgb(130, 0, 130);
+}
+.error {
+    color: rgb(140, 2, 140);
+    font-size: 12px;
+    text-align: left;
+}
+.login-link {
+    color: rgb(140, 2, 140);
+    text-decoration: none;
+}
+.back-button {
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    background-color: #ddd;
+    color: rgb(140, 2, 140);
+    padding: 10px 15px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 0.9em;
+    transition: background-color 0.3s;
+}
+.back-button:hover {
+    background-color: rgb(140, 2, 140);
+    color: white;
+}
+
+.password-container {
+    position: relative;
+}
+
+#password {
+    width: 100%;
+    padding: 12px;
+    margin: 10px 0;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+.toggle-password {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 16px;
+    cursor: pointer;
+    color: #aaa;
+}
+
+.toggle-password:hover {
+    color: rgb(140, 2, 140);
+}
+.logo {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+}
+img {
+    width: 100px;
+    padding: 50px;
+}
+</style>
+</head>
+<body>
+<div class="logo">
+        <img src="logo-photoaidcom-cropped.jpg" alt="Logo" />
+        </div>
+<div class="form-container">
+<h2>Sign Up To Find Your Space</h2>
+<form id="signUpForm" action="connectsignupclient.php" method="post">
+    <!-- Email Field -->
+    <input type="email" id="email" name="email" placeholder="Vit email address" required>
+    <div class="error" id="emailError"></div>
+
+    <!-- Password Field -->
+    <div class="password-container">
+        <input type="password" id="password" name="password" placeholder="Password (8 or more characters)" required>
+        <i class="far fa-eye-slash toggle-password" id="togglePassword"></i>
+    </div>
+    <div class="error" id="passwordError"></div>
+
+    <!-- Terms and Conditions Checkbox -->
+    <div class="checkbox-group">
+        <input type="checkbox" id="terms" name="terms" required>
+        <label for="terms" class="terms">Yes, I understand and agree to the <a href="#">Terms of Service</a>, including the <a href="#">User Agreement</a> and <a href="#">Privacy Policy</a>.</label>
+    </div>
+    <div class="error" id="termsError"></div>
+
+    <!-- Submit Button -->
+    <button type="submit" class="submit-btn">Create my account</button><br>
+
+</form>
+
+<a href="index.html" class="back-button">Back</a>
+</div>
+
+<script>
+$(document).ready(function () {
+    $('#signUpForm').submit(function (e) {
+        e.preventDefault();
+        let isValid = true;
+
+        // Clear previous error messages
+        $('#emailError, #passwordError, #termsError').text('');
+        const email = $('#email').val().trim();
+        const password = $('#password').val().trim();
+        const termsAccepted = $('#terms').is(':checked');
+
+        // Email Validation for @vitstudent.ac.in
+        const emailPattern = /^[a-zA-Z0-9._-]+@vitstudent\.ac\.in$/;
+        if (!emailPattern.test(email)) {
+            $('#emailError').text('Please enter a valid VIT email address (ending with @vitstudent.ac.in).');
+            $('#email').css('border-color', 'red');
+            isValid = false;
+        } else {
+            $('#email').css('border-color', '#ddd');
+        }
+
+        // Password Validation
+        if (password.length < 8) {
+            $('#passwordError').text('Password must be at least 8 characters.');
+            $('#password').css('border-color', 'red');
+            isValid = false;
+        } else {
+            $('#password').css('border-color', '#ddd');
+        }
+
+        // Terms Validation
+        if (!termsAccepted) {
+            $('#termsError').text('You must accept the terms and conditions.');
+            isValid = false;
+        } else {
+            $('#termsError').text('');
+        }
+
+        // If form is valid, submit
+        if (isValid) {
+            this.submit(); // Submit the form
+        }
+    });
+
+    // Toggle password visibility
+    $('#togglePassword').on('click', function () {
+        const passwordField = $('#password');
+        const type = passwordField.attr('type') === 'password' ? 'text' : 'password';
+        passwordField.attr('type', type);
+        $(this).toggleClass('fa-eye fa-eye-slash');
+    });
+});
+</script>
+
+</body>
+</html>
